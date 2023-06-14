@@ -17,11 +17,12 @@ class DiaryEntry():
     
     def word_count(self):
         # returns word count for diary entry
-        pass
+        return len(self.contents.split())
 
     def reading_time(self, wpm):
         # Parameters:
         #   wpm: integer for how many wpm user can read 
         # Returns:
         #   the reading time in minutes (rounded to 1dp)
-        pass
+        reading_time = round(self.word_count()/wpm)
+        return reading_time
