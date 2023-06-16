@@ -1,23 +1,27 @@
-from text import *
-from order import *
-from menu import *
+from unittest.mock import Mock
+from lib.text import TextConfirmation
+from lib.order import Order
+from lib.menu import Menu
 
 
-# """
-# 3 items added
-# 4 items chosen for order
-# test sending text from twillio if order has been placed
-
-# """
-# menu = Menu()
-# menu.add("Fish and Chips": 15)
-# menu.add("Burger": 13)
-# menu.add("Pasta": 10)
-# order = Order(menu)
-# order.add_to_order("Fish and Chips", 2)
-# order.add_to_order("Burger", 2)
-# text_confirmation = TextConfirmation(order)
-# text_confirmation == "Message sent successfully"
+"""
+3 items added
+4 items chosen for order
+test sending text from twillio if order has been placed
+"""
+def test_send_text_from_twillio_if_order_placed():
+    menu = Menu()
+    menu.add_dish("Fish and Chips", 15)
+    menu.add_dish("Burger", 13)
+    menu.add_dish("Pasta", 10)
+    order = Order(menu)
+    order.add_to_order("Fish and Chips", 2)
+    order.add_to_order("Burger", 2)
+    text_confirmation = TextConfirmation(order)
+    message = text_confirmation.format_message()
+    final = text_confirmation.send_text(message, "+447525093691")
+    print(final)
+    # assert text_confirmation.send_text(message, "+447525093691") == "Message sent successfully"
 
 
 # ## Order - Menu integrated tests ###

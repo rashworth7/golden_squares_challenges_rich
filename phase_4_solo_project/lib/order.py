@@ -13,12 +13,19 @@ class Order():
         # Returns nothing
         # Side effects:
         #   Adds the diary entry to the list of dairy entries
-        pass
+        self.menu = menu
+        self.current_order = {}
+        self.order_price = 0
 
     def see_menu(self):
         # Returns:
         #   List of items and prices
-        pass
+        if self.menu.dishes == {}:
+            return "Nothing on the menu :("
+        current_menu = "Menu!\n\n"
+        for item in self.menu.dishes:
+            current_menu += f"{item}: £{self.menu.dishes[item]}\n"
+        return current_menu[:-1]
     
     def add_to_order(self, item, quantity):
         # Parameters:
@@ -26,9 +33,18 @@ class Order():
         # Returns: nothing
         # Side effects:
         #   adds items to order 
-        pass
+        self.current_order[item] = self.current_order.get(item, 0) + quantity
+        self.order_price += quantity * self.menu.dishes[item]
 
     def verify_order(self):
         # Returns:
         #   formatted string showing number of items, cost and total cost
-        pass
+        if self.current_order == {}: 
+            return "Nothing added to order"
+        
+        order_details = "Order Details!\n\n"
+        for item, quantity in self.current_order.items():
+            order_details += f"{quantity} x {item}: £{quantity * self.menu.dishes[item]}\n"
+
+        order_details += f"Total: £{self.order_price}"
+        return order_details

@@ -1,6 +1,5 @@
 
 
-
 class Menu():
     #User facing properties
     #   dishes
@@ -8,20 +7,20 @@ class Menu():
     def __init__(self):
         # Parameters:
         #   dishes: dictionary of dishes and prices
-        pass
+        self.dishes = {}
 
     def add_dish(self, dish, price):
-        # Parameters:
-        #   dish: string
-        #   pricer: float
-        # Returns nothing
-        # Side effects:
-        #   the dishes to self.dishes
-        pass
+        self.dishes[dish] = price
 
     def display_menu(self):
         # Returns:
         #   formatted list of dishes and prices
         # Side effects:
         #   the dishes to self.dishes
-        pass
+        if self.dishes == {}:
+            return "Nothing on the menu"
+        menu = f"Menu!\n\n"
+        for item in self.dishes:
+            menu += f"{item}: £{self.dishes[item]}\n"
+        return menu[:-1]
+        
