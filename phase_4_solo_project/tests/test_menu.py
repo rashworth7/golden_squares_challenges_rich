@@ -25,17 +25,17 @@ def test_add_dishes_to_menu():
 Given Menu
 Check display menu display nothing if nothing added to menu
 """
-def test_dsiplay_menu_with_nothing_on_menu():
-    menu = Menu()
-    assert menu.display_menu() == "Nothing on the menu"
+# def test_dsiplay_menu_with_nothing_on_menu():
+#     menu = Menu()
+#     assert menu.display_menu() == "Nothing on the menu"
 
 """
 Given menu
 Check display_menu displays the menu in the correct format
 """
-def test_display_menu_with_items_on_menu():
-    menu = Menu()
-    menu.add_dish("Fish and Chips", 15)
-    menu.add_dish("Burger", 13)
-    menu.add_dish("Pasta", 10)
-    assert menu.display_menu() == "Menu!\n\nFish and Chips: £15\nBurger: £13\nPasta: £10"
+# def test_display_menu_with_items_on_menu():
+#     menu = Menu()
+#     menu.add_dish("Fish and Chips", 15)
+#     menu.add_dish("Burger", 13)
+#     menu.add_dish("Pasta", 10)
+#     assert menu.display_menu() == "Menu!\n\nFish and Chips: £15\nBurger: £13\nPasta: £10"

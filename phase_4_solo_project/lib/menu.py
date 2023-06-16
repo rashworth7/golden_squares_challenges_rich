@@ -12,15 +12,13 @@ class Menu():
     def add_dish(self, dish, price):
         self.dishes[dish] = price
 
+# Code below is repeated in order class
+"""
     def display_menu(self):
-        # Returns:
-        #   formatted list of dishes and prices
-        # Side effects:
-        #   the dishes to self.dishes
         if self.dishes == {}:
             return "Nothing on the menu"
         menu = f"Menu!\n\n"
         for item in self.dishes:
             menu += f"{item}: £{self.dishes[item]}\n"
         return menu[:-1]
-        
+"""

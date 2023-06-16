@@ -36,6 +36,14 @@ class Order():
         self.current_order[item] = self.current_order.get(item, 0) + quantity
         self.order_price += quantity * self.menu.dishes[item]
 
+    def remove_from_order(self, item, quantity):
+        if item not in self.current_order:
+            raise Exception("item not on the order")
+        elif self.current_order[item] == 1:
+            del self.current_order[item]
+        else:
+            self.current_order[item] -= 1
+
     def verify_order(self):
         # Returns:
         #   formatted string showing number of items, cost and total cost

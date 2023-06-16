@@ -33,3 +33,18 @@ def test_raise_error_when_send_text_called_and_no_order_is_placed():
 """
 sends text with correct message
 """
+
+# Not sure how to write a mock test with twilio
+
+def test_twilio():
+
+    order = Mock()
+    order.current_order = {"Fish and chips": 1, "Burger": 1}
+
+    text_confirmation = TextConfirmation(order)
+
+    result = text_confirmation.send_text() 
+
+    assert result == 
+
+    

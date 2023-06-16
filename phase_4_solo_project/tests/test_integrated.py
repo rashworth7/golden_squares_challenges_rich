@@ -18,13 +18,15 @@ def test_send_text_from_twillio_if_order_placed():
     order.add_to_order("Fish and Chips", 2)
     order.add_to_order("Burger", 2)
     text_confirmation = TextConfirmation(order)
-    message = text_confirmation.format_message()
-    final = text_confirmation.send_text(message, "+447525093691")
+    final = text_confirmation.send_text("+447525093691")
     print(final)
     # assert text_confirmation.send_text(message, "+447525093691") == "Message sent successfully"
 
 
 # ## Order - Menu integrated tests ###
+
+
+
 
 
 # """
