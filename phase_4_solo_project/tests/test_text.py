@@ -36,15 +36,18 @@ sends text with correct message
 
 # Not sure how to write a mock test with twilio
 
-def test_twilio():
+@mock.patch('text.client.messages.create')
+def test_twilio(create_message_mock):
+    mock_order = Mock()
+    message = "Hi there"
+    expected_sid = 'SM87105da94bff44b999e4e6eb90d8eb6a'
+    create_message_mock.return_value.sid = expected_sid
 
-    order = Mock()
-    order.current_order = {"Fish and chips": 1, "Burger": 1}
+    to = "<your-personal-number>"
+    from_ = "<your-twilio-number>"
+    sid = send_text(to, from_)
 
-    text_confirmation = TextConfirmation(order)
-
-    result = text_confirmation.send_text() 
-
-    assert result == 
+    assert create_message_mock.called is True
+    assert sid == expected_sid
 
     

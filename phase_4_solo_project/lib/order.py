@@ -56,3 +56,6 @@ class Order():
 
         order_details += f"Total: £{self.order_price}"
         return order_details
+    
+    def place_order(self):
+        
