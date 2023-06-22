@@ -2,12 +2,11 @@ class UserInterface:
     def __init__(self, io, game):
         self.io = io
         self.game = game
+    
 
     def run(self):
         self._show("Welcome to the game!")
         self._show("Set up your ships first.")
-
-    def run_board_set_up(self):
         while self.game.unplaced_ships != []:
             self._show("You have these ships remaining: {}".format(
                 self._ships_unplaced_message()))
@@ -15,16 +14,20 @@ class UserInterface:
             self._show("This is your board now:")
             self._show(self._format_board())
 
+
     def _show(self, message):
         self.io.write(message + "\n")
+
 
     def _prompt(self, message):
         self.io.write(message + "\n")
         return self.io.readline().strip()
 
+
     def _ships_unplaced_message(self):
         ship_lengths = [str(ship.length) for ship in self.game.unplaced_ships]
         return ", ".join(ship_lengths)
+
 
     def _prompt_for_ship_placement(self):
         ship_length = self._prompt("Which do you wish to place?")
@@ -39,6 +42,7 @@ class UserInterface:
             col=int(ship_col),
         )
         self._show(outcome)
+
 
     def _format_board(self):
         rows = []

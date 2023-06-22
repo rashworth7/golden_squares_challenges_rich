@@ -27,6 +27,7 @@ class Game:
             "..........",
             ".........."
             ]
+        self.ships_sunk = 0
 
     def place_ship(self, length, orientation, row, col):
         try:

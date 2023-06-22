@@ -90,3 +90,8 @@ def test_ship_already_placed():
     result = game.place_ship(2, orientation="vertical", row=1, col=3) #(1,3) (2,3) (3,3)
     assert result == "Error, you've already placed that ship!"
 
+def test_ship_for_coords():
+    game = Game()
+    game.place_ship(5, orientation="horizontal", row=1, col=2) #(3,3) (3,4) (3,5)
+    
+

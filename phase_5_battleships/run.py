@@ -1,5 +1,6 @@
 import sys
 from lib.game import Game
+from lib.battle import Battle
 from lib.user_interface import UserInterface
 
 
@@ -13,19 +14,17 @@ class TerminalIO:
 
 io = TerminalIO()
 
-game_1 = Game()
-user_interface = UserInterface(io, game_1)
+player_1_game = Game()
+user_interface = UserInterface(io, player_1_game)
 user_interface.run()
-user_interface.run_board_set_up()
     
 
-game_2 = Game()
-user_interface = UserInterface(io, game_2)
+player_2_game = Game()
+user_interface = UserInterface(io, player_2_game)
 user_interface.run()
-user_interface.run_board_set_up()
 
 
-user_1 = Game(game_1, game_2)
-user_2 = Game(game_2, game_1)
+battle = Battle(io, player_1_game, player_2_game)
+battle.run_battle_ships()
 
 

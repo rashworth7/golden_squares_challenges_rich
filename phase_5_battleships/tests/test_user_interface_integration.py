@@ -172,7 +172,8 @@ class TestUserInterface(unittest.TestCase):
 
     def test_ship_placement_error(self):
         io = TerminalInterfaceHelperMock()
-        interface = UserInterface(io, Game())
+        game = Game()
+        interface = UserInterface(io, game)
         io.expect_print("Welcome to the game!")
         io.expect_print("Set up your ships first.")
         io.expect_print("You have these ships remaining: 2, 3, 3, 4, 5")
@@ -325,4 +326,6 @@ class TestUserInterface(unittest.TestCase):
         io.expect_print("Done, for now!")
         interface.run()
 
-        
+
+    
+            
