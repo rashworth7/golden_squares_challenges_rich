@@ -10,31 +10,37 @@ class Battle:
     def _show(self, message):
         self.io.write(message + "\n")
 
-
     def _prompt(self, message):
         self.io.write(message + "\n")
         return self.io.readline().strip()
 
     def _prompt_for_shot_placement(self, player, attackee):
-        row = self._prompt("Which row do you wish to target?")
-        col = self._prompt("Which column do you wish to attach?")
+        shot_there = True
+        while shot_there:
+            row_type = False
+            col_type = False
+            
+            while row_type == False:
+                row = self._prompt("Which row do you wish to attack?")
+                if row.isdigit():
+                    row_type = True
+
+            while col_type == False:
+                col = self._prompt("Which column do you wish to attack?")
+                if col.isdigit():
+                    col_type = True
+
+            attack_row = list(player.opponent_board[int(row) - 1])
+
+            if attack_row[int(col) - 1] == "💥":
+                self._show("You've already placed a shot there")
+
+            elif not (0 < int(row) < 11) or not (0 < int(col) < 11):
+                self._show("That's off the board, please try again")
+            else:
+                shot_there = False
         result = self.place_shot(player, attackee, int(row), int(col))
         self._show(result)
-
-
-    # def _prompt_for_ship_placement(self):
-    #     ship_length = self._prompt("Which do you wish to place?")
-    #     ship_orientation = self._prompt("Vertical or horizontal? [vh]")
-    #     ship_row = self._prompt("Which row?")
-    #     ship_col = self._prompt("Which column?")
-    #     self._show("OK.")
-    #     outcome = self.game.place_ship(
-    #         length=int(ship_length),
-    #         orientation={"v": "vertical", "h": "horizontal"}[ship_orientation],
-    #         row=int(ship_row),
-    #         col=int(ship_col),
-    #     )
-    #     self._show(outcome)
 
 
     def run_battle_ships(self):
@@ -49,15 +55,21 @@ class Battle:
             self._show("Your attack board")
             self._show(self.show_opponent_board(self.player_1_game))
             self._prompt_for_shot_placement(self.player_1_game, self.player_2_game)
-            (game_on, result) = self.game_over()
-
+            is_game_over = self.game_over()
+            if is_game_over:
+                result = "Game over: Player 1 wins!"
+                game_on = False
+            
             self._show("Player 2, your turn to attack")
             self._show("Your Ships' board")
-            self.show_player_board(self.player_2_game)
+            self._show(self.show_player_board(self.player_2_game))
             self._show("Your attack board")
-            self.show_opponent_board(self.player_2_game)
+            self._show(self.show_opponent_board(self.player_2_game))
             self._prompt_for_shot_placement(self.player_2_game, self.player_1_game)
-            (game_on, result) = self.game_over()
+            is_game_over = self.game_over()
+            if is_game_over:
+                result = "Game over: Player 2 wins!"
+                game_on = False
         
         self._show(result)
     
@@ -68,20 +80,13 @@ class Battle:
         return "\n".join(player.opponent_board)
 
     def place_shot(self, player, attackee, row, col):
+
         if attackee.ship_at(row, col):
             self.update_boards_after_shot(player, attackee, row, col, "hit")
-            # board_row = list(player.opponent_board[row - 1])
-            # board_row[col - 1] = "X"
-            # player_opp_row = "".join(board_row)
-            # player.opponent_board[row - 1] = player_opp_row
             result = self.update_opponents_ship_hit_marker(attackee, row, col)
 
         else:
             self.update_boards_after_shot(player, attackee, row, col, "miss")
-            # board_row = list(player.opponent_board[row - 1])
-            # board_row[col - 1] = "0"
-            # player_opp_row = "".join(board_row)
-            # player.opponent_board[row - 1] = player_opp_row
             result = self.update_opponents_ship_hit_marker(attackee, row, col)
             
         return result
@@ -97,24 +102,21 @@ class Battle:
             row_cells = []
             for col in range(1, player.cols + 1):
                 if (row, col) in ship_coordinates:
-                    row_cells.append("S")
+                    row_cells.append("⚫")
                 else:
-                    row_cells.append(".")
+                    row_cells.append("🔵")
             rows.append("".join(row_cells))
         player.player_board = rows
 
-    def update_boards_after_shot(self, player, attackee, row, col, hit):
-        # player hits attackee
-
-        # update player opponent board
+    def update_boards_after_shot(self, player, attackee, row, col, hit_or_miss):
         player_opp_list_row = list(player.opponent_board[row - 1])
         attackee_player_row_list = list(attackee.player_board[row - 1])
-        if hit == "hit":
-            player_opp_list_row[col - 1] = "X"
-            attackee_player_row_list[col - 1] = "X"
-        elif hit == "miss":
-            player_opp_list_row[col - 1] = "0"
-            attackee_player_row_list[col - 1] = "0"
+        if hit_or_miss == "hit":
+            player_opp_list_row[col - 1] = "💥"
+            attackee_player_row_list[col - 1] = "💥"
+        elif hit_or_miss == "miss":
+            player_opp_list_row[col - 1] = "⚪"
+            attackee_player_row_list[col - 1] = "⚪"
 
         player_opp_row = "".join(player_opp_list_row)
         player.opponent_board[row - 1] = player_opp_row
@@ -123,7 +125,6 @@ class Battle:
         attackee_player_row = "".join(attackee_player_row_list)
         attackee.player_board[row - 1] = attackee_player_row
 
-        
     
     def update_opponents_ship_hit_marker(self, attackee, row, col):
         for ship in attackee.ships_placed:
@@ -140,7 +141,7 @@ class Battle:
 
     def game_over(self):
         if self.player_1_game.ships_sunk == 5:
-            return (True, "Game over: Player 2 wins!")
+            return True
         elif self.player_2_game.ships_sunk == 5:
             return (True, "Game over: Player 1 wins!")
         else:

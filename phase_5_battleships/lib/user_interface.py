@@ -31,9 +31,27 @@ class UserInterface:
 
     def _prompt_for_ship_placement(self):
         ship_length = self._prompt("Which do you wish to place?")
-        ship_orientation = self._prompt("Vertical or horizontal? [vh]")
-        ship_row = self._prompt("Which row?")
-        ship_col = self._prompt("Which column?")
+
+        v_h = False
+        while v_h == False:
+            ship_orientation = self._prompt("Vertical or horizontal? [vh]")
+            if ship_orientation in ["v", "h"]:
+                v_h = True
+
+
+        digit = False
+        while digit == False: 
+            ship_row = self._prompt("Which row?")
+            if ship_row.isdigit():
+                digit = True
+
+        digit = False
+        while digit == False: 
+            ship_col = self._prompt("Which column?")
+            if ship_col.isdigit():
+                digit = True
+
+        
         self._show("OK.")
         outcome = self.game.place_ship(
             length=int(ship_length),
@@ -50,8 +68,8 @@ class UserInterface:
             row_cells = []
             for col in range(1, self.game.cols + 1):
                 if self.game.ship_at(row, col):
-                    row_cells.append("S")
+                    row_cells.append("⚫")
                 else:
-                    row_cells.append(".")
+                    row_cells.append("🔵")
             rows.append("".join(row_cells))
         return "\n".join(rows)
